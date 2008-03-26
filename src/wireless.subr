@@ -1,25 +1,5 @@
 #! /bin/bash
 
-# Uses wpa_supplicant to check for association to a network
-# wpa_check interface [timeout]
-wpa_check()
-{
-    INTERFACE=$1; TIMEOUT=$2
-    
-    [[ -z "$TIMEOUT" ]] && TIMEOUT=15
-    let timeout=0
-    while [[ $timeout -ne $TIMEOUT ]]; do
-        eval `wpa_cli status|grep wpa_state` 
-        [[ "$wpa_state" = "COMPLETED" ]] && return 0
-        sleep 1
-        let timeout++
-    done
-
-    wpa_cli terminate >/dev/null 2>&1
-    err_append "Wireless association failed."
-    return 1 
-}
-
 # Uses wireless_tools, to check for association to a network.
 # wep_check interface [timeout]
 wep_check()
@@ -80,21 +60,6 @@ list_networks()
 
     echo $essids
     return 0
-}
-
-start_wpa() 
-{
-    INTERFACE=$1; WPA_CONF=$2; WPA_OPTS=$3
-     
-    [[ "$WPA_OPTS" == "" ]] && WPA_OPTS="-Dwext"
-
-    wpa_supplicant -wB -P/var/run/wpa_supplicant_${INTERFACE}.pid -i${INTERFACE} -c $WPA_CONF $WPA_OPTS    
-    sleep 1
-    
-    if [[ ! -f /var/run/wpa_supplicant_${INTERFACE}.pid ]]; then
-        err_append "wpa_supplicant did not start, possible configuration error"
-        return 1
-    fi
 }
 
 wireless_up() {
