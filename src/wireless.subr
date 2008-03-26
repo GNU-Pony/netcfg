@@ -120,6 +120,9 @@ wireless_up() {
         kill $(cat /var/run/wpa_supplicant_$INTERFACE.pid)
     fi
     
+    # Default SCAN to on
+    [[ -z "$SCAN" ]] && SCAN="yes"
+
     if checkyesno $SCAN; then
         if ! find_essid $INTERFACE "$ESSID"; then
             err_append "Network unavailable"
