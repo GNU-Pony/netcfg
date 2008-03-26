@@ -1,5 +1,5 @@
 DESTDIR=
-VERSION=2.1.0_A1
+VERSION=2.1.0_A2
 
 install:
 	install -d $(DESTDIR)/usr/lib/network/connections $(DESTDIR)/etc/network.d/examples \
