@@ -1,5 +1,8 @@
 ### Globals
-PROFILE_DIR="/etc/network.d"
+PROFILE_DIR="/etc/network.d/"
+SUBR_DIR="/usr/lib/network/"
+CONN_DIR="/usr/lib/network/connections/"
+STATE_DIR="/var/run/network/"
 
 ### Messages
 ##
@@ -35,7 +38,7 @@ validate_profile()
         err "Profile missing an interface to configure"
         return 1
     fi
-    if [[ ! -f $SUBR_DIR/$CONNECTION.subr ]]; then
+    if [[ ! -f $CONN_DIR/$CONNECTION ]]; then
         err "$CONNECTION is not a valid connection, check spelling or look at examples"
         return 1
     fi
@@ -108,7 +111,7 @@ profile_up()
    
     eval $PRE_UP || return 1
     
-    . $SUBR_DIR/${CONNECTION}.subr
+    . $CONN_DIR/${CONNECTION}
     if ! ${CONNECTION}_up $1; then
         stat_fail
         return 1
@@ -145,7 +148,7 @@ profile_down()
     
     eval $PRE_DOWN || return 1
     
-    . $SUBR_DIR/${CONNECTION}.subr
+    . $CONN_DIR/${CONNECTION}
     if ! ${CONNECTION}_down $1; then
         stat_fail
         return 1

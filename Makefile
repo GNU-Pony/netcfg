@@ -1,9 +1,8 @@
 DESTDIR=
-VERSION=2.0.6
-
+VERSION=2.1.0_A1
 
 install:
-	install -d $(DESTDIR)/usr/lib/network/ $(DESTDIR)/etc/network.d/examples \
+	install -d $(DESTDIR)/usr/lib/network/connections $(DESTDIR)/etc/network.d/examples \
 	            $(DESTDIR)/var/run/network/{interfaces,profiles} \
 	            $(DESTDIR)/usr/bin/ $(DESTDIR)/etc/rc.d/ \
 				$(DESTDIR)/usr/man/{man5,man8}
@@ -13,6 +12,8 @@ install:
 	install -m644 man/*.8 $(DESTDIR)/usr/man/man8
 	# Libs
 	install -m644 src/*subr $(DESTDIR)/usr/lib/network
+	# Connections
+	install -m644 src/connections/* $(DESTDIR)/usr/lib/network/connections
 	# 'Binaries'
 	install -m755 src/netcfg $(DESTDIR)/usr/bin/netcfg2
 	install -m755 src/netcfg-menu $(DESTDIR)/usr/bin/netcfg-menu

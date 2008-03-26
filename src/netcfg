@@ -12,10 +12,7 @@ err() {
 		printhl "$*"
 }
 
-NETCFG_VER=2.0.6
-PROFILE_DIR="/etc/network.d/"
-SUBR_DIR="/usr/lib/network/"
-STATE_DIR="/var/run/network/"
+NETCFG_VER=2.1.0_A1
 
 version()
 {
