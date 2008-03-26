@@ -29,22 +29,11 @@ case "$1" in
         else 
             # No NET= passed at boot, go to NETWORKS=()
             for network in ${NETWORKS[@]}; do
-                case $network in
-                    menu) # Pull up menu of networks
-                        /usr/bin/netcfg-menu $NETWORKS_MENU_TIMEOUT
-                        ;;
-                    auto-*) # Automatic configuration, store type and get interface next
-                        auto=$network
-                        ;;
-                    *) # Either interface or profile
-                        if [[ "$auto" ]]; then # Auto set, so interface
-                            /usr/bin/netcfg-$auto $network
-                            unset auto 
-                        elif [ "$network" = "${network#!}" ]; then # otherwise profile
-                            /usr/bin/netcfg2 -c $network
-                        fi
-                        ;;
-                esac
+                if [ "$network" = "menu" ]; then
+                    /usr/bin/netcfg-menu $NETWORKS_MENU_TIMEOUT
+                elif [ "$network" = "${network#!}" ]; then
+                    /usr/bin/netcfg2 -c network
+                fi
             done
         fi            
 

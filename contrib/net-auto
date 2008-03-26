@@ -1,0 +1,47 @@
+#!/bin/bash
+
+. /etc/rc.conf
+. /etc/rc.d/functions
+
+case "$1" in
+    start)
+        if ! ck_daemon net-auto; then
+            echo "net-auto has already been started.  Try '/etc/rc.d/net-auto restart'"
+            exit
+        fi
+
+        # Ensure any device renaming has occurred as intended
+        for daemon in "${DAEMONS[@]}"; do
+            if [ "$daemon" = "${daemon#!}" -a "$daemon" = "net-rename" ]; then
+                if ck_daemon net-rename; then
+                    /etc/rc.d/net-rename start
+                fi
+          fi
+        done
+        for entry in ${AUTO_NETWORKS}; do
+            case $entry in
+                auto*)
+                    auto=$network
+                    ;;
+                *)
+                    if [[ "$auto" ]]; then
+                        /usr/bin/netcfg-$auto $entry
+                    fi
+                    ;;
+            esac
+        done
+        add_daemon net-auto
+        ;;
+    stop)
+        # shutdown any profiles started by netcfg (or from NET_PROFILES in rc.conf)
+        /usr/bin/netcfg2 -a
+        rm_daemon net-auto
+        ;;
+    restart)
+        $0 stop; sleep 1; $0 start
+        ;;
+    *)
+        echo "usage: $0 {start|stop|restart}"  
+esac
+
+# vim: set ts=4 et sw=4:
