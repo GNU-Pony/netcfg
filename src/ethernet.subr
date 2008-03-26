@@ -29,6 +29,7 @@ ethernet_up() {
     dhcp)
         # Check if DHCP_TIMEOUT was set if not set a default value
         [[ -z "$DHCP_TIMEOUT" ]] && DHCP_TIMEOUT=10
+        [[ -z "$DHCLIENT" ]] && DHCLIENT=yes
 
         if checkyesno $DHCLIENT; then
             rm -r /var/run/dhclient-${INTERFACE}.pid >/dev/null 2>&1
