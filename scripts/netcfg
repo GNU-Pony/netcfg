@@ -26,6 +26,7 @@ Arguments:
 -l, list           List all available profiles
 -r, reconnect      Disconnect and reconnect specified profile
 -R, iface-recon    Reconnect profile active on specified interface
+-S, swap           Take all active profiles down, and start specified profile
 -u, up             Start specified profile
 -v, version        Output version information and exit
     all-resume     Resume previously suspended profiles and reconnect them
@@ -76,6 +77,9 @@ case "$1" in
         profile_up "$2";;
     -R|iface-recon)
         interface_reconnect "$2";;
+    -S|swap)
+        all_down
+        profile_up "$2";;
     all-resume)
         all_resume;;
     all-suspend)
