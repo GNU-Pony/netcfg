@@ -7,6 +7,8 @@ Wants=network.target
 EnvironmentFile=/etc/conf.d/netcfg
 ExecStart=/usr/bin/netcfg-wpa_actiond $WIRELESS_INTERFACE
 ExecStop=/usr/bin/netcfg-wpa_actiond stop $WIRELESS_INTERFACE
+BindsTo=sys-subsystem-net-devices-${WIRELESS_INTERFACE}.device
+After=sys-subsystem-net-devices-${WIRELESS_INTERFACE}.device
 RemainAfterExit=yes
 Type=forking
 
