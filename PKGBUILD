@@ -1,15 +1,16 @@
-# Maintainer: Jouke Witteveen <j.witteveen@gmail.com>
+# Maintainer: Mattias Andrée <`base64 -d`(bWFhbmRyZWUK)@member.fsf.org>
+# Previous maintainer: Jouke Witteveen <j.witteveen@gmail.com>
 
 pkgname=netcfg
-pkgver=%pkgver%
-pkgrel=1
+pkgver=3.1
+pkgrel=2
 pkgdesc="Network configuration and profile scripts"
 url="http://archlinux.org/netcfg/"
 license=("BSD")
 backup=(etc/iftab etc/conf.d/netcfg)
 groups=(base)
 depends=("coreutils" "dhcpcd" "iproute2")
-#makedepends=('asciidoc')  # The source tarball includes pre-built documentation.
+makedepends=('asciidoc')
 optdepends=('dialog: for the menu based profile and wifi selectors'
             'wpa_supplicant: for wireless networking support'
             'ifplugd: for automatic wired connections through net-auto-wired'
@@ -18,9 +19,9 @@ optdepends=('dialog: for the menu based profile and wifi selectors'
             'ifenslave: for bond connections'
             'bridge-utils: for bridge connections'
            )
-source=(ftp://ftp.archlinux.org/other/netcfg/netcfg-${pkgver}.tar.xz)
+source=(https://github.com/GNU-Pony/netcfg/archive/${pkgver}.tar.gz)
 arch=(any)
-md5sums=('%md5sum%')
+md5sums=('e2e0443f69a4e2379b2a3c5179534c9d')
 
 package() {
   cd "$srcdir/netcfg-${pkgver}"
