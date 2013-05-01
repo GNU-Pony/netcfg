@@ -3,7 +3,7 @@
 
 pkgname=netcfg
 pkgver=3.1
-pkgrel=2
+pkgrel=3
 pkgdesc="Network configuration and profile scripts"
 url="http://archlinux.org/netcfg/"
 license=("BSD")
@@ -11,6 +11,7 @@ backup=(etc/iftab etc/conf.d/netcfg)
 groups=(base)
 depends=("coreutils" "dhcpcd" "iproute2")
 makedepends=('asciidoc')
+conflicts=('netctl')
 optdepends=('dialog: for the menu based profile and wifi selectors'
             'wpa_supplicant: for wireless networking support'
             'ifplugd: for automatic wired connections through net-auto-wired'
