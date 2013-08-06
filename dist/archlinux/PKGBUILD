@@ -9,7 +9,7 @@ url='https://github.com/GNU-Pony/netcfg/'
 license=(BSD)
 backup=(etc/iftab etc/conf.d/netcfg)
 groups=(base)
-depends=(coreutils dhcpcd iproute2 bash)
+depends=(linux bash>=4 coreutils dhcpcd iproute2)
 makedepends=(texman texinfo gzip make coreutils)
 conflicts=(netctl)
 optdepends=('dialog: for the menu based profile and wifi selectors'
