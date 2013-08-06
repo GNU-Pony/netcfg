@@ -107,12 +107,16 @@ netcfg.%sh-completion: netcfg.auto-completion
 
 
 
-.PHONY:  install-core install-doc install-license install-systemd install-bash install-zsh
-install: install-core install-doc install-license install-systemd install-bash install-zsh
+.PHONY:  install-core install-doc install-license install-changelog install-systemd install-bash install-zsh
+install: install-core install-doc install-license install-changelog install-systemd install-bash install-zsh
 
 install-license:
 	install -d     -- "$(DESTDIR)$(PREFIX)$(LICENSES)/$(PKGNAME)"
 	install -m644  LICENSE                -- "$(DESTDIR)$(PREFIX)$(LICENSES)/$(PKGNAME)/"
+
+install-changelog:
+	install -d     -- "$(DESTDIR)$(PREFIX)$(DATA)/changelogs"
+	install -m644  CHANGELOG              -- "$(DESTDIR)$(PREFIX)$(DATA)/changelogs/$(PKGNAME)"
 
 install-systemd:
 	install -d     -- "$(DESTDIR)$(PREFIX)$(LIB)/systemd/system"
@@ -207,6 +211,7 @@ uninstall:
 	-rm    -- $(foreach F, $(SCRIPTS), "$(DESTDIR)$(PREFIX)$(BIN)/$$(basename "$(F)")")
 	-rm    -- "$(DESTDIR)$(INITHOOKS_LIB)"/net-set-variable
 	-rm    -- $(foreach F, $(RCD), "$(DESTDIR)$(INITHOOKS)/$$(basename "$(F)")")
+	-rm    -- "$(DESTDIR)$(PREFIX)$(DATA)/changelogs/$(PKGNAME)"
 
 
 
