@@ -1,0 +1,13 @@
+[Unit]
+Description=Netcfg sleep hook
+Before=sleep.target
+StopWhenUnneeded=yes
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/netcfg all-suspend
+ExecStop=/usr/bin/netcfg all-resume
+
+[Install]
+WantedBy=sleep.target
