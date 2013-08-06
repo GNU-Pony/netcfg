@@ -58,4 +58,3 @@ case "$1" in
         ;;
 esac
 exit 0
-# vim: ft=sh ts=4 et sw=4:

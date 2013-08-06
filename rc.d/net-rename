@@ -25,4 +25,3 @@ case "$1" in
     ;;
 esac
 
-# vim: ft=sh ts=4 et sw=4:

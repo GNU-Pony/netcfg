@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This script utilizes netcfg-daemon.
+# This script utilises netcfg-daemon.
 
 . /etc/rc.conf
 . /etc/rc.d/functions
@@ -52,4 +52,3 @@ case "$1" in
         exit_stderr "Usage: $0 {start|stop|restart}"
 esac
 
-# vim: ft=sh ts=4 et sw=4:
