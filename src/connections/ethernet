@@ -276,4 +276,4 @@ stop_80211x() {
 
 ethernet_$1 "$2"
 exit $?
-# vim: set ts=4 et sw=4:
+

@@ -50,4 +50,4 @@ openvpn_down() {
 
 openvpn_$1 "$2"
 exit $?
-# vim: ft=sh ts=4 et sw=4:
+

@@ -75,4 +75,3 @@ pppoe_down() {
 pppoe_$1 "$2"
 exit $?
 
-# vim: ft=sh ts=4 et sw=4:

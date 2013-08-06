@@ -44,4 +44,4 @@ bridge_down() {
 
 bridge_$1 "$2"
 exit $?
-# vim: set ts=4 et sw=4:
+

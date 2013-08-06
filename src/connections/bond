@@ -37,4 +37,3 @@ bond_down() {
 bond_$1 "$2"
 exit $?
 
-# vim: set ts=4 et sw=4:

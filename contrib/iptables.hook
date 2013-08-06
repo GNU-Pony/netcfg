@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ### Sample netcfg hook script for location based firewall rules.
 ### To install, make this executable and put it in /usr/lib/network/hooks
 

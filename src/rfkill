@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 set_rf_state() {
     local INTERFACE="$1" state="$2" RFKILL_NAME="$3"
 
@@ -56,6 +58,4 @@ enable_rf() {
         fi
     fi
 }
-
-# vim: ft=sh ts=4 et sw=4:
 

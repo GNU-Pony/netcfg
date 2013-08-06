@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Fancy output is for terminal output only.
 [[ -t 1 ]] || return
 
@@ -87,4 +89,3 @@ FANCY_OTHER=${FANCY_HIGHLIGHT}$(tput setaf 4)  # blue
 PREFIX_BUSY="::"
 PREFIX_ATTENTION=" >"
 
-# vim: ft=sh ts=4 et sw=4:

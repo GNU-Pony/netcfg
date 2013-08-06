@@ -25,4 +25,3 @@ tuntap_down() {
 
 tuntap_$1 "$2"
 exit $?
-# vim: set ts=4 et sw=4 tw=0:

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Use initscripts output formatting.
 # This hook must be loaded after 'fancy'.
 
@@ -32,4 +34,3 @@ FANCY_OTHER=$C_OTHER
 
 PREFIX_ATTENTION=$PREFIX_HL
 
-# vim: ft=sh ts=4 et sw=4:

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # /usr/lib/networks/globals
 #
 # All +x files in /usr/lib/network/hooks will be sourced when this file is.
@@ -133,4 +135,3 @@ function load_hooks() {
 
 load_hooks
 
-# vim: ft=sh ts=4 et sw=4:
