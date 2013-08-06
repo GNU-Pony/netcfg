@@ -15,3 +15,7 @@ _/
 *.tgz
 *.patch
 *.diff
+*.info
+*.pdf
+*.ps
+*.dvi

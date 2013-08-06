@@ -1,0 +1,118 @@
+@c -*- texinfo -*-
+@texman{netcfg}{8}{August 06, 2013}
+
+
+@section Name
+
+@b{netcfg} - start/stop/control network profiles
+
+
+
+@section Synopsis
+
+@b{netcfg} [@var{option}...]
+@*
+@b{netcfg} @var{profile}
+
+
+
+@section Description
+
+@b{netcfg} is used to configure and manage network connections via profiles.
+It has pluggable support for a range of connection types, such as wireless,
+ethernet, ppp. It is also capable of starting/stopping many to one connections,
+that is, multiple connections within the same profile, optionally with bonding.
+
+It may be run at boot, by  adding @command{net-profiles} to @var{DAEMONS} in
+@file{/etc/rc.conf}, or, on systemd systems, by by enabling the @command{netcfg}
+systemd service. After boot time, it may be used to start profiles, simply
+by passing only the profile name.
+
+When run without options, netcfg profile is equivalent to @command{netcfg -u}
+profile.
+
+
+
+@section Options
+
+@item -l, -list
+List all available profiles.
+
+@item current
+Report currently running profiles.
+
+@item -c, check-iface @var{profile}
+Start the specified profile, only if it’s interface is not currently up.
+
+@item -u, up @var{profile}
+Start the specified profile.
+
+@item -r, reconnect @var{profile}
+Disconnect and reconnect the specified profile.
+
+@item -R, iface-recon @var{interface}
+Reconnect profile active on specified interface.
+
+@item -d, down @var{profile}
+Stop the specified profile.
+
+@item -D, iface-down @var{interface}
+Stop the profile up on the specified interface.
+
+@item -a, all-down
+Stop all connected profiles.
+
+@item all-suspend
+Suspend and store the name of all active profiles.
+
+@item all-resume
+Reconnect any profiles that have been suspended.
+
+@item -v, --version
+Display version information and exit.
+
+@item -h, --help
+Display help message and exit.
+
+
+
+@section Configuration files
+
+@item /etc/conf.d/netcfg
+Parameters for startup.
+
+@item /etc/network.d/
+User-defined profiles.
+
+
+
+@section Files
+
+@item /usr/lib/network/connections/
+Currently installed network profile types.
+
+@item /etc/network.d/examples/
+Example profiles.
+
+@item /usr/share/doc/netcfg/contrib/
+Inspirational scripts.
+
+
+
+@section Environment variables
+
+@item NETCFG_DEBUG
+Set to 1 to activate debug output.
+
+
+
+@section See also
+
+@b{info netcfg}.
+
+
+
+@section Bugs
+
+For bugtracking, @url{https://github.com/GNU-Pony/netcfg/issues} is used.
+

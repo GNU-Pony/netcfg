@@ -21,6 +21,9 @@ For bonding support
 For bridge support:
 - bridge-utils
 
-For documentation generation:
-- asciidoc
+
+Make dependencies:
+- texman: for generating man page
+- texinfo: for generating info manual
+- gzip: for manual compression
 

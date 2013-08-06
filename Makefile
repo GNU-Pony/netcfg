@@ -69,32 +69,28 @@ RCD         = rc.d/net-profiles       \
               rc.d/net-auto-wired     \
               rc.d/net-auto-wireless
 
-MANPAGES = doc/netcfg.8 doc/netcfg-profiles.5
-
 
 
 .PHONY: doc
 all:    doc
 
-.PHONY: man
-doc:    man
+.PHONY: man info
+doc:    man info
 
-man: $(MANPAGES)
+man: netcfg.8.gz
+netcfg.8.gz: doc/netcfg.texman
+	texman < "$<" | gzip -9 > "$@"
 
-$(MANPAGES): %: %.txt footer.txt
-	a2x -d manpage -f manpage -a manversion=$(VERSION) $<
+info: netcfg.info.gz
+netcfg.info: doc/netcfg.texinfo
+	makeinfo "$<"
+netcfg.info.gz: netcfg.info
+	gzip -9 < netcfg.info > netcfg.info.gz
 
 
 
 .PHONY:  install-core install-doc install-license install-systemd
 install: install-core install-doc install-license install-systemd
-
-install-doc: doc
-	install -d     -- "$(DESTDIR)$(PREFIX)$(DATA)/man"/{man5,man8}
-	install -m644  doc/netcfg-profiles.5  -- "$(DESTDIR)$(PREFIX)$(DATA)/man/man5/"
-	install -m644  doc/netcfg.8           -- "$(DESTDIR)$(PREFIX)$(DATA)/man/man8/"
-	install -d     -- "$(DESTDIR)$(PREFIX)$(DOC)/$(PKGNAME)/contrib"
-	install -m644  $(CONTRIB)             -- "$(DESTDIR)$(PREFIX)$(DOC)/$(PKGNAME)/contrib/"
 
 install-license:
 	install -d     -- "$(DESTDIR)$(PREFIX)$(LICENSES)/$(PKGNAME)"
@@ -103,6 +99,23 @@ install-license:
 install-systemd:
 	install -d                            -- "$(DESTDIR)$(PREFIX)$(LIB)/systemd/system"
 	install -m644  systemd/*.service      -- "$(DESTDIR)$(PREFIX)$(LIB)/systemd/system/"
+
+
+
+.PHONY:      install-man install-info install-contrib
+install-doc: install-man install-info install-contrib
+
+install-man: man
+	install -d     -- "$(DESTDIR)$(PREFIX)$(DATA)/man/man8"
+	install -m644  netcfg.8.gz            -- "$(DESTDIR)$(PREFIX)$(DATA)/man/man8/"
+
+install-info: info
+	install -d     -- "$(DESTDIR)$(PREFIX)$(DATA)/info"
+	install -m644  netcfg.info.gz         -- "$(DESTDIR)$(PREFIX)$(DATA)/info/"
+
+install-contrib:
+	install -d     -- "$(DESTDIR)$(PREFIX)$(DOC)/$(PKGNAME)/contrib"
+	install -m644  $(CONTRIB)             -- "$(DESTDIR)$(PREFIX)$(DOC)/$(PKGNAME)/contrib/"
 
 
 
@@ -138,7 +151,7 @@ install-daemon:
 
 
 clean:
-	-rm $(MANPAGES) 2>/dev/null
+	-rm netcfg.8.gz netcfg.info.gz netcfg.info 2>/dev/null
 
 
 
