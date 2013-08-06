@@ -1,5 +1,7 @@
 version 4.0
 - the makefile has been modified
+- netcfg-profile man page has been removed
+- info manual has been added contain the content of both man pages
 
 version 3.2
 - fix Wi-Fi reconnect after suspend (FS#32580)
