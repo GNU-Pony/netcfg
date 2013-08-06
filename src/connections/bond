@@ -1,6 +1,6 @@
 #! /bin/bash
 . /usr/lib/network/network
-IFENSLAVE="/sbin/ifenslave"
+: ${IFENSLAVE:=ifenslave}
 
 bond_up() {
     load_profile "$1"

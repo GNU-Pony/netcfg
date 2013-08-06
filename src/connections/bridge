@@ -1,6 +1,6 @@
 #! /bin/bash
 . /usr/lib/network/network
-BRCTL="/usr/sbin/brctl"
+: ${BRCTL:=brctl}
 
 bridge_up() {
     local bridge_interface

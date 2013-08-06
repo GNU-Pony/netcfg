@@ -2,6 +2,7 @@
 # Originally contributed by Thomas Jost: https://bugs.archlinux.org/task/21490
 
 . /usr/lib/network/network
+: ${OPENVPN:=openvpn}
 
 openvpn_up() {
     load_profile "$1"
@@ -12,7 +13,7 @@ openvpn_up() {
     OVPN_CONF_DIR="`dirname $OVPN_CONFIG`"
     OVPN_CONF_FILE="`basename $OVPN_CONFIG`"
 
-    /usr/sbin/openvpn --writepid $OVPN_PID_FILE --daemon --cd "$OVPN_CONF_DIR" --config "$OVPN_CONF_FILE" $OVPN_FLAGS
+    $OPENVPN --writepid $OVPN_PID_FILE --daemon --cd "$OVPN_CONF_DIR" --config "$OVPN_CONF_FILE" $OVPN_FLAGS
 
     if [[ $? -ne 0 ]]; then
        report_fail "OpenVPN connection failed"

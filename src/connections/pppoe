@@ -1,5 +1,6 @@
 #! /bin/bash
 . /usr/lib/network/network
+: ${PPPD:=pppd}
 
 _quotestring() {
     echo "\"${1/\"/\\\"}\""
@@ -45,8 +46,8 @@ pppoe_up() {
     [[ -n ${PPPOE_MAC} ]] && echo "pppoe-mac $(_quotestring "${PPPOE_MAC}")" >> "${cfg}"
     [[ ${PPPOE_IP6} == yes ]] && echo "+ipv6" >> "${cfg}"
 
-    /sbin/ip link set dev "${INTERFACE}" up
-    /usr/sbin/pppd file "${cfg}"
+    ip link set dev "${INTERFACE}" up
+    $PPPD file "${cfg}"
 
     if [[ $? -ne 0 ]]; then
         rm "${cfg}"
