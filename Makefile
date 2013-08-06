@@ -69,6 +69,12 @@ RCD         = rc.d/net-profiles       \
               rc.d/net-auto-wired     \
               rc.d/net-auto-wireless
 
+SYSTEMD     = systemd/net-auto-wired.service     \
+              systemd/net-auto-wireless.service  \
+              systemd/netcfg.service             \
+              systemd/netcfg@.service            \
+              systemd/netcfg-sleep.service
+
 
 
 .PHONY: doc shell
@@ -108,7 +114,7 @@ install-license:
 
 install-systemd:
 	install -d     -- "$(DESTDIR)$(PREFIX)$(LIB)/systemd/system"
-	install -m644  systemd/*.service      -- "$(DESTDIR)$(PREFIX)$(LIB)/systemd/system/"
+	install -m644  $(SYSTEMD)             -- "$(DESTDIR)$(PREFIX)$(LIB)/systemd/system/"
 
 install-bash: bash
 	install -d     -- "$(DESTDIR)$(PREFIX)$(DATA)/bash-completion/completions"
