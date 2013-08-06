@@ -39,43 +39,43 @@ NETWORK     = src/network  \
               src/8021x    \
               src/globals
 
-CONTRIB     = contrib/iptables.hook     \
-              contrib/logging.hook      \
-              contrib/pm-utils.handler
+EXTRAS      = extra/iptables.hook     \
+              extra/logging.hook      \
+              extra/pm-utils.handler
 
-EXAMPLES    = doc/examples/bonding                     \
-              doc/examples/ethernet-dhcp               \
-              doc/examples/ethernet-static             \
-              doc/examples/ethernet-iproute            \
-              doc/examples/ppp                         \
-              doc/examples/pppoe                       \
-              doc/examples/wireless-open               \
-              doc/examples/wireless-wep                \
-              doc/examples/wireless-wpa                \
-              doc/examples/wireless-wpa-static         \
-              doc/examples/wireless-wpa-configsection  \
-              doc/examples/wireless-wpa-config         \
-              doc/examples/tunnel-he-ipv6              \
-              doc/examples/vlan-dhcp                   \
-              doc/examples/vlan-static                 \
-              doc/examples/bridge                      \
-              doc/examples/openvpn                     \
-              doc/examples/tuntap                      \
-              doc/examples/wireless-open               \
-              doc/examples/wireless-wep                \
-              doc/examples/wireless-wep-string-key     \
-              doc/examples/wireless-wpa-config
+EXAMPLES    = extra/examples/bonding                     \
+              extra/examples/ethernet-dhcp               \
+              extra/examples/ethernet-static             \
+              extra/examples/ethernet-iproute            \
+              extra/examples/ppp                         \
+              extra/examples/pppoe                       \
+              extra/examples/wireless-open               \
+              extra/examples/wireless-wep                \
+              extra/examples/wireless-wpa                \
+              extra/examples/wireless-wpa-static         \
+              extra/examples/wireless-wpa-configsection  \
+              extra/examples/wireless-wpa-config         \
+              extra/examples/tunnel-he-ipv6              \
+              extra/examples/vlan-dhcp                   \
+              extra/examples/vlan-static                 \
+              extra/examples/bridge                      \
+              extra/examples/openvpn                     \
+              extra/examples/tuntap                      \
+              extra/examples/wireless-open               \
+              extra/examples/wireless-wep                \
+              extra/examples/wireless-wep-string-key     \
+              extra/examples/wireless-wpa-config
 
 RCD         = rc.d/net-profiles       \
               rc.d/net-rename         \
               rc.d/net-auto-wired     \
               rc.d/net-auto-wireless
 
-SYSTEMD     = systemd/net-auto-wired.service     \
-              systemd/net-auto-wireless.service  \
-              systemd/netcfg.service             \
-              systemd/netcfg@.service            \
-              systemd/netcfg-sleep.service
+SYSTEMD     = extra/systemd/net-auto-wired.service     \
+              extra/systemd/net-auto-wireless.service  \
+              extra/systemd/netcfg.service             \
+              extra/systemd/netcfg@.service            \
+              extra/systemd/netcfg-sleep.service
 
 
 
@@ -86,14 +86,14 @@ all:    doc shell
 doc:    man info
 
 man: netcfg.8.gz
-netcfg.8.gz: doc/netcfg.texman
+%.8.gz: extra/doc/%.texman
 	texman < "$<" | gzip -9 > "$@"
 
 info: netcfg.info.gz
-netcfg.info: doc/netcfg.texinfo
+%.info: extra/doc/%.texinfo
 	makeinfo "$<"
-netcfg.info.gz: netcfg.info
-	gzip -9 < netcfg.info > netcfg.info.gz
+%.info.gz: %.info
+	gzip -9 < "$<" > "$@"
 
 .PHONY: bash zsh
 shell:  bash zsh
@@ -101,7 +101,7 @@ shell:  bash zsh
 bash: netcfg.bash-completion
 zsh: netcfg.zsh-completion
 
-netcfg.%sh-completion: netcfg.auto-completion
+netcfg.%sh-completion: extra/netcfg.auto-completion
 	auto-auto-complete "$*sh" --output "$@" --source "$<"
 
 
@@ -145,7 +145,7 @@ install-info: info
 
 install-contrib:
 	install -d     -- "$(DESTDIR)$(PREFIX)$(DOC)/$(PKGNAME)/contrib"
-	install -m644  $(CONTRIB)             -- "$(DESTDIR)$(PREFIX)$(DOC)/$(PKGNAME)/contrib/"
+	install -m644  $(EXTRAS)              -- "$(DESTDIR)$(PREFIX)$(DOC)/$(PKGNAME)/contrib/"
 
 
 
@@ -189,7 +189,7 @@ uninstall:
 	-rm    -- "$(DESTDIR)$(PREFIX)$(DATA)/zsh/site-functions"/_netcfg
 	-rm    -- "$(DESTDIR)$(PREFIX)$(DATA)/man/man8"/netcfg.8.gz
 	-rm    -- "$(DESTDIR)$(PREFIX)$(DATA)/info/"netcfg.info.gz
-	-rm    -- $(foreach F, $(CONTRIB), "$(DESTDIR)$(PREFIX)$(DOC)/$(PKGNAME)/contrib/$$(basename "$(F)")")
+	-rm    -- $(foreach F, $(EXTRAS), "$(DESTDIR)$(PREFIX)$(DOC)/$(PKGNAME)/contrib/$$(basename "$(F)")")
 	-rmdir -- "$(DESTDIR)$(PREFIX)$(DOC)/$(PKGNAME)/contrib"
 	-rmdir -- "$(DESTDIR)$(PREFIX)$(DOC)/$(PKGNAME)"
 	-rm    -- "$(DESTDIR)$(SYSCONF)/conf.d"/netcfg
