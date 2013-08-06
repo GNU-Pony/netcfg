@@ -19,3 +19,5 @@ _/
 *.pdf
 *.ps
 *.dvi
+/*.*sh-completion
+

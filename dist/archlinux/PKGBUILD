@@ -10,7 +10,7 @@ license=(BSD)
 backup=(etc/iftab etc/conf.d/netcfg)
 groups=(base)
 depends=(linux bash>=4 coreutils dhcpcd iproute2 sed grep findutils)
-makedepends=(texman texinfo gzip make coreutils)
+makedepends=(texman texinfo gzip make coreutils auto-auto-complete)
 conflicts=(netctl)
 optdepends=('dialog: for the menu based profile and wifi selectors'
             'wpa_supplicant: for wireless networking support'

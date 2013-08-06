@@ -1,0 +1,28 @@
+(netcfg
+	(multiple unargumented
+		((options -h --help)     (complete --help)       (desc 'Display version information and exit'))
+		((options -v --version)  (complete --version)    (desc 'Display help message and exit'))
+		((options -l list)       (complete list)         (desc 'List all available profiles'))
+		((options current)       (complete current)      (desc 'Report currently running profiles'))
+		((options -a all-down)   (complete all-down)     (desc 'Stop all connected profiles'))
+		((options all-suspend)   (complete all-suspend)  (desc 'Suspend and store the name of all active profiles.'))
+		((options all-resume)    (complete all-resume)   (desc 'Reconnect any profiles that have been suspended.'))
+	)
+	
+	(multiple argumented
+		((options -c check-iface)  (complete check-iface)             (desc "Start the specified profile, only if it's interface is not currently up")  (arg PROFILE)  (suggest profile)  (files -0))
+		((options -u up)           (complete up)           (bind -c)  (desc 'Start the specified profile'))
+		((options -r reconnect)    (complete reconnect)    (bind -c)  (desc 'Disconnect and reconnect the specified profile'))
+		((options -d down)         (complete down)         (bind -c)  (desc 'Stop the specified profile'))
+		
+		((options -R iface-recon)  (complete iface-recon)             (desc 'Reconnect profile active on specified interface')  (arg INTERFACE)  (suggest interface)  (files -0))
+		((options -D iface-down)   (complete iface-down)   (bind -R)  (desc 'Stop the profile up on the specified interface'))
+	)
+	
+	(suggestion profile    (exec  find -L /etc/network.d/ -maxdepth 1 -type f -not -name '*~' -not -name '*.conf' -not -name '.*' -printf '%f\\n'))
+	(suggestion interface  (ls    /sys/class/net/))
+	
+	
+	; This setup not work too well with fish, so just skip it
+)
+

@@ -71,8 +71,8 @@ RCD         = rc.d/net-profiles       \
 
 
 
-.PHONY: doc
-all:    doc
+.PHONY: doc shell
+all:    doc shell
 
 .PHONY: man info
 doc:    man info
@@ -87,18 +87,36 @@ netcfg.info: doc/netcfg.texinfo
 netcfg.info.gz: netcfg.info
 	gzip -9 < netcfg.info > netcfg.info.gz
 
+.PHONY: bash zsh
+shell:  bash zsh
+
+bash: netcfg.bash-completion
+zsh: netcfg.zsh-completion
+
+netcfg.%sh-completion: netcfg.auto-completion
+	auto-auto-complete "$*sh" --output "$@" --source "$<"
 
 
-.PHONY:  install-core install-doc install-license install-systemd
-install: install-core install-doc install-license install-systemd
+
+
+.PHONY:  install-core install-doc install-license install-systemd install-bash install-zsh
+install: install-core install-doc install-license install-systemd install-bash install-zsh
 
 install-license:
 	install -d     -- "$(DESTDIR)$(PREFIX)$(LICENSES)/$(PKGNAME)"
 	install -m644  LICENSE                -- "$(DESTDIR)$(PREFIX)$(LICENSES)/$(PKGNAME)/"
 
 install-systemd:
-	install -d                            -- "$(DESTDIR)$(PREFIX)$(LIB)/systemd/system"
+	install -d     -- "$(DESTDIR)$(PREFIX)$(LIB)/systemd/system"
 	install -m644  systemd/*.service      -- "$(DESTDIR)$(PREFIX)$(LIB)/systemd/system/"
+
+install-bash: bash
+	install -d     -- "$(DESTDIR)$(PREFIX)$(DATA)/bash-completion/completions"
+	install -m644  netcfg.bash-completion -- "$(DESTDIR)$(PREFIX)$(DATA)/bash-completion/completions"/netcfg
+
+install-zsh: zsh
+	install -d     -- "$(DESTDIR)$(PREFIX)$(DATA)/zsh/site-functions"
+	install -m644  netcfg.zsh-completion  -- "$(DESTDIR)$(PREFIX)$(DATA)/zsh/site-functions"/_netcfg
 
 
 
@@ -151,7 +169,7 @@ install-daemon:
 
 
 clean:
-	-rm netcfg.8.gz netcfg.info.gz netcfg.info 2>/dev/null
+	-rm netcfg.{8.gz,info.gz,info,{bash,zsh}-completion} 2>/dev/null
 
 
 

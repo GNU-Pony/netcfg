@@ -28,5 +28,6 @@ For bridge support:
 Make dependencies:
 - texman: for generating man page
 - texinfo: for generating info manual
-- gzip: for manual compression
+- gzip: for compressing manuals
+- auto-auto-complete: for generating shell auto-completion
 
