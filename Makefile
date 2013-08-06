@@ -180,23 +180,23 @@ install-daemon:
 uninstall:
 	-rm    -- "$(DESTDIR)$(PREFIX)$(LICENSES)/$(PKGNAME)"/LICENSE
 	-rmdir -- "$(DESTDIR)$(PREFIX)$(LICENSES)/$(PKGNAME)"
-	-rm    -- $(foreach F, $(SYSTEMD), "$(DESTDIR)$(PREFIX)$(SYSTEMD_LIB/system/$(F)")
+	-rm    -- $(foreach F, $(SYSTEMD), "$(DESTDIR)$(PREFIX)$(SYSTEMD_LIB/system/$$(basename "$(F)")")
 	-rm    -- "$(DESTDIR)$(PREFIX)$(DATA)/bash-completion/completions"/netcfg
 	-rm    -- "$(DESTDIR)$(PREFIX)$(DATA)/zsh/site-functions"/_netcfg
 	-rm    -- "$(DESTDIR)$(PREFIX)$(DATA)/man/man8"/netcfg.8.gz
 	-rm    -- "$(DESTDIR)$(PREFIX)$(DATA)/info/"netcfg.info.gz
-	-rm    -- $(foreach F, $(CONTRIB), "$(DESTDIR)$(PREFIX)$(DOC)/$(PKGNAME)/contrib/$(F)")
+	-rm    -- $(foreach F, $(CONTRIB), "$(DESTDIR)$(PREFIX)$(DOC)/$(PKGNAME)/contrib/$$(basename "$(F)")")
 	-rmdir -- "$(DESTDIR)$(PREFIX)$(DOC)/$(PKGNAME)/contrib"
 	-rmdir -- "$(DESTDIR)$(PREFIX)$(DOC)/$(PKGNAME)"
 	-rm    -- "$(DESTDIR)$(SYSCONF)/conf.d"/netcfg
 	-rm    -- "$(DESTDIR)$(SYSCONF)"/iftab
-	-rm    -- $(foreach F, $(EXAMPLES), "$(DESTDIR)$(SYSCONF)/network.d/examples/$(F)")
+	-rm    -- $(foreach F, $(EXAMPLES), "$(DESTDIR)$(SYSCONF)/network.d/examples/$$(basename "$(F)")")
 	-rmdir -- "$(DESTDIR)$(SYSCONF)/network.d/examples"
 	-rmdir -- "$(DESTDIR)$(SYSCONF)/network.d"
-	-rm    -- $(foreach F, $(NETWORK), "$(DESTDIR)$(PREFIX)$(LIB)/network/$(F)")
-	-rm    -- $(foreach F, $(CONNECTIONS), "$(DESTDIR)$(PREFIX)$(LIB)/network/connections/$(F)")
+	-rm    -- $(foreach F, $(NETWORK), "$(DESTDIR)$(PREFIX)$(LIB)/network/$$(basename "$(F)")")
+	-rm    -- $(foreach F, $(CONNECTIONS), "$(DESTDIR)$(PREFIX)$(LIB)/network/connections/$$(basename "$(F)")")
 	-rmdir -- "$(DESTDIR)$(PREFIX)$(LIB)/network/connections"
-	-rm    -- $(foreach F, $(HOOKS), "$(DESTDIR)$(PREFIX)$(LIB)/network/hooks/$(F)")
+	-rm    -- $(foreach F, $(HOOKS), "$(DESTDIR)$(PREFIX)$(LIB)/network/hooks/$$(basename "$(F)")")
 	-rmdir -- "$(DESTDIR)$(PREFIX)$(LIB)/network/hooks"
 	-rmdir -- "$(DESTDIR)$(SYSCONF)/network"
 	-rm    -- "$(DESTDIR)$(SYSCONF)/ifplugd"/netcfg.action
@@ -204,9 +204,9 @@ uninstall:
 	-rm    -- "$(DESTDIR)$(PREFIX)$(LIB)/pm-utils/sleep.d"/50netcfg
 	-rmdir -- "$(DESTDIR)$(PREFIX)$(LIB)/pm-utils/sleep.d"
 	-rmdir -- "$(DESTDIR)$(PREFIX)$(LIB)/pm-utils"
-	-rm    -- $(foreach F, $(SCRIPTS), "$(DESTDIR)$(PREFIX)$(BIN)/$(F)")
+	-rm    -- $(foreach F, $(SCRIPTS), "$(DESTDIR)$(PREFIX)$(BIN)/$$(basename "$(F)")")
 	-rm    -- "$(DESTDIR)$(INITHOOKS_LIB)"/net-set-variable
-	-rm    -- $(foreach F, $(RCD), "$(DESTDIR)$(INITHOOKS)/$(F)")
+	-rm    -- $(foreach F, $(RCD), "$(DESTDIR)$(INITHOOKS)/$$(basename "$(F)")")
 
 
 
