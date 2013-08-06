@@ -11,3 +11,5 @@ _/
 *.bz2
 *.xz
 *.tgz
+*.patch
+*.diff
