@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Use initscripts output formatting.
 # This hook must be loaded after 'fancy'.

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 set_rf_state() {
     local INTERFACE="$1" state="$2" RFKILL_NAME="$3"

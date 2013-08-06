@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Fancy output is for terminal output only.
 [[ -t 1 ]] || return

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Usage: wpa_call $interface $call ...
 # Wrapper around wpa_cli to deal with supplicant configurations that set a

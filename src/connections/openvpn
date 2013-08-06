@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 # Originally contributed by Thomas Jost: https://bugs.archlinux.org/task/21490
 
 . /usr/lib/network/network
