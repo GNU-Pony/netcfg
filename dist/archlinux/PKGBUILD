@@ -2,15 +2,15 @@
 # Previous maintainer: Jouke Witteveen <j.witteveen@gmail.com>
 
 pkgname=netcfg
-pkgver=3.2
+pkgver=4.0
 pkgrel=1
 pkgdesc='Network configuration and profile scripts'
 url='https://github.com/GNU-Pony/netcfg/'
 license=(BSD)
 backup=(etc/iftab etc/conf.d/netcfg)
 groups=(base)
-depends=(coreutils dhcpcd iproute2)
-makedepends=(asciidoc)
+depends=(coreutils dhcpcd iproute2 bash)
+makedepends=(texman texinfo gzip make coreutils)
 conflicts=(netctl)
 optdepends=('dialog: for the menu based profile and wifi selectors'
             'wpa_supplicant: for wireless networking support'
