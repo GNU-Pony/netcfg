@@ -98,7 +98,7 @@ install-doc: doc
 
 install-license:
 	install -d     -- "$(DESTDIR)$(PREFIX)$(LICENSES)/$(PKGNAME)"
-	install -m644  COPYING LICENSE        -- "$(DESTDIR)$(PREFIX)$(LICENSES)/$(PKGNAME)/"
+	install -m644  LICENSE                -- "$(DESTDIR)$(PREFIX)$(LICENSES)/$(PKGNAME)/"
 
 install-systemd:
 	install -d                            -- "$(DESTDIR)$(PREFIX)$(LIB)/systemd/system"
