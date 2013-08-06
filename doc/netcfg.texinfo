@@ -54,7 +54,8 @@ Texts. A copy of the license is included in the section entitled
 @menu
 * Overview::                        Brief overview of @command{netcfg}.
 * Invoking::                        Invocation of @command{netcfg}.
-* Files::                           Files related to @command{netcfg}.
+* Files::                           Files related to netcfg.
+* Configuration::                   Configuring netcfg.
 * GNU Free Documentation License::  Copying and sharing this manual.
 @end menu
 
@@ -161,6 +162,436 @@ Example profiles.
 @item /usr/share/doc/netcfg/contrib/
 Inspirational scripts.
 @end table
+
+
+
+@node Configuration
+@chapter Configuration
+
+@menu
+* Available Connections::           Connection available in netcfg.
+@end menu
+
+
+The netcfg profiles are plain text files that defines variables
+for netcfg behaviour. They must be compliant with bash shell
+syntax and usually do not execute any code.
+
+They are named @file{/etc/network.d/@var{profile_name}}, where
+@var{profile_name} must not contain a newline character and
+should not start with the ‘@@’-sign.
+
+Profiles must define mandatory variables:
+
+@table @var
+@item INTERFACE
+The name of the associated network interface.
+
+@item DESCRIPTION
+A description of the profile.
+
+@item CONNECTION
+The connection type used by the profile.
+@end table
+
+Connections define how the network is set up for the profile and
+also determine additional configuration variable that control their
+behaviour. The available connection types are determined by files
+in @file{/usr/lib/network/connections/}.
+
+
+
+@node Available Connections
+@section Available Connections
+
+The following connection available in netcfg.
+
+@table @code
+@item ethernet
+Standard network configuration, suitable for wired connections.
+
+@item wireless
+Wireless connection, with @command{wpa_supplicant} as
+configuration back-end.
+
+@item bond
+Bonded network interfaces using @command{ifenslave}.
+
+@item bridge
+Network bridge setup using @command{brctl}.
+
+@item tuntap
+TUN/TAP interfaces.
+
+@item tunnel
+Tunnel interfaces.
+
+@item vlan
+VLAN setup.
+
+@item openvpn
+OpenVPN setup.
+
+@item ppp
+PPP connections setup.
+
+@item pppoe
+PPPoE connections setup.
+@end table
+
+
+@menu
+* ethernet::                        Options reference for @code{ethernet}
+* wireless::                        Options reference for @code{wireless}
+* bond::                            Options reference for @code{bond}
+* bridge::                          Options reference for @code{bridge}
+* tuntap::                          Options reference for @code{tuntap}
+* tunnel::                          Options reference for @code{tunnel}
+* vlan::                            Options reference for @code{vlan}
+* openvpn::                         Options reference for @code{openvpn}
+* ppp::                             Options reference for @code{ppp}
+@c* pppoe::                           Options reference for @code{pppoe}
+@end menu
+
+
+
+@node ethernet
+@subsection @code{ethernet}
+
+This connection method uses the iproute suite of tools and dhcpcd
+to gain an IP address.
+
+@table @asis
+@item @var{IP} (required for IPv4)
+Either @code{static} or @code{dhcp}. Set to @code{no} to have netcfg
+bring the interface up but assign no addresses. Static requires at
+least one of @var{ADDR} or @var{IPCFG}.
+
+@item @var{IPCFG}
+Array of arguments to pass to @var{IP}. The power of this options is
+that it allows both simple and complicated routing configurations,
+within the framework of netcfg.
+
+@item @var{SKIPNOCARRIER}
+@code{yes} or @code{no}. Don't abort interface setup if no carrier
+is found.
+@end table
+
+IPv4 options
+
+@table @asis
+@item @var{ADDR} (requires @var{IP} of @code{static})
+A single IP address to configure a static IP.
+
+@item @var{GATEWAY} (requires @var{IP} of @code{static})
+Set specified gateway
+
+@item @var{NETMASK} (requires @var{IP} of @code{static})
+Set specified netmask. Defaults to @code{24}.
+
+@item @var{ROUTES}
+An array of custom routes (of the form address range via gateway.)
+@end table
+
+IPv6 options
+
+@table @asis
+@item @var{IP6} (required for @var{IPv6})
+Either @code{dhcp}, @code{dhcp-noaddr}, @code{stateless} or @code{static},
+or @code{no} to disable IPv6.
+
+@item @var{ADDR6} (required when @var{IP6} is @code{static})
+An array of IPv6 addresses: prefix length may be specified via @code{1234:bcd::11/64} syntax.
+
+@item @var{GATEWAY6} (requires @var{IP6} of @code{static})
+The gateway address for IPv6 routing.
+
+@item @var{ROUTES6}
+An array of custom routes (of the form address range via gateway.)
+
+@item @var{DAD_TIMEOUT}
+Time to wait for Duplicate Address Detection to succeed. Defaults to @code{3} seconds.
+@end table
+
+DNS configuration
+
+@table @var
+@item DNS
+Array of DNS nameservers. Simply specify the IP's of each of the DNS nameservers.
+
+@item DNS_OPTIONS
+Array of @code{option} lines for @file{/etc/resolv.conf}
+
+@item SEARCH
+@code{search} line for @file{/etc/resolv.conf}
+
+@item DOMAIN
+@code{domain} line for @file{/etc/resolv.conf}
+
+@item HOSTNAME
+Set the system hostname. Ensure any hostname is correctly referenced in @file{/etc/hosts}.
+@end table
+
+DHCP configuration
+
+@table @asis
+@item @var{DHCP_OPTIONS} (IPv4)
+String. Any extra arguments to pass to the dhcp client, presently @command{dhcpcd}.
+
+@item @var{DHCP_TIMEOUT}
+Integer. Maximum time to try for a DHCP IP. Default is @code{10} seconds.
+
+@item @var{DHCLIENT}
+@code{yes} or @code{no}. Use @command{dhclient} instead of @command{dhcpcd}.
+Defaults to @code{no}.
+
+@item @var{DHCLIENT_OPTIONS} (IPv4)
+String. Extra options to pass to @command{dhclient} for IPv4.
+
+@item @var{DHCLIENT6_OPTIONS} (IPv6)
+String. Extra options to pass to @command{dhclient} for IPv6.
+@end table
+
+802.11x Authentication
+
+@table @asis
+@item @var{AUTH8021X}
+Use 802.11x authentication. Enable with @code{yes}.
+
+@item @var{WPA_CONF} (required for an @var{AUTH8021X} of @code{yes} only)
+Path to @command{wpa_supplicant} configuration.
+Defaults to @file{/etc/wpa_supplicant.conf}
+
+@item @var{WPA_OPTS} (optional for an AUTH8021X of @code{yes})
+Extra arguments for @command{wpa_supplicant} not specified otherwise.
+Any option here must specify @command{wpa_supplicant} driver.
+Defaults to @code{-Dwired}.
+@end table
+
+Examples:
+
+@table @asis
+@item Using @var{ADDR} and @var{GATEWAY} to set static IP and gateway
+@example
+IP=static
+ADDR=192.168.1.23
+GATEWAY=192.168.1.1
+@end example
+
+@item Using @var{IPCFG} to set a static IP and gateway with custom DNS
+@example
+IP=static
+IPCFG=('addr add dev eth0 192.168.1.23/24 brd +' 'route add default via 192.168.1.1')
+DNS=(208.67.222.222  208.67.220.220)
+@end example
+@end table
+
+
+
+@node wireless
+@subsection @code{wireless}
+
+This connection method uses wpa_supplicant to configure a
+wireless network connection. This connection uses the
+@code{ethernet} connection after successful association
+and thus supports all of its options.
+
+@table @asis
+@item @var{SECURITY} (required for security of @code{wep}, @code{wpa}, @code{wpa-configsection} or @code{wpa-config})
+One of @code{wpa}, @code{wep}, @code{none}, @code{wpa-configsection}
+or @code{wpa-config}. Defaults to @code{none}.
+
+@item @var{KEY} (required for @var{SECURITY} of @code{wpa} or @code{wep} only)
+Wireless encryption key.
+
+@item @var{ESSID} (this or @var{AP} is required)
+Name of network to connect to, or hexadecimal digits (see @var{ESSID_TYPE}.)
+
+@item @var{ESSID_TYPE} (optional, defaults to @code{ascii})
+Set to @code{ascii} or @code{hex}, if set to @code{hex}, @var{ESSID} will
+be interpreted as an hexadecimal SSID and written unquoted to the
+@command{wpa_supplicant} configuration file.
+
+@item @var{AP} (this or @var{ESSID} is required)
+@var{AP} (BSSID) of the network to connect to.
+
+@item @var{HIDDEN} (optional)
+Define this to connect to hidden ESSID:s.
+
+@item @var{ADHOC} (optional)
+Define this to use ad-hoc mode for wireless.
+
+@item @var{TIMEOUT} (optional)
+Time to wait for association. Defaults to @code{15} seconds.
+
+@item @var{SCAN} (optional)
+@code{yes} or @code{no}. Scan for a wireless network rather than blindly
+attempting to connect. Hidden SSID networks do not appear in a scan.
+
+@item @var{PRIORITY} (optional)
+Priority group for the network. The matched network with the highest
+priority will be selected. Defaults to @code{0}.
+@end table
+
+The following options are WPA options.
+
+@table @asis
+@item @var{WPA_CONF} (for @var{SECURITY} of @code{wpa-config} only)
+Path to @command{wpa_supplicant} configuration. Defaults to @file{/etc/wpa_supplicant.conf}.
+
+@item @var{WPA_OPTS}
+Extra arguments for @command{wpa_supplicant} not specified otherwise.
+
+@item @var{WPA_GROUP}
+Group that has authority to configure @command{wpa_supplicant} via it's
+control interface. Used in any configuration that is generated by netcfg.
+
+@item @var{WPA_COUNTRY} (optional, nl80211 based drivers)
+The country where the device will be used. This allows @command{wpa_supplicant}
+to enforce any local regulatory limitations and will allow all appropriate
+channels/frequencies for your device.
+
+@item @var{WPA_DRIVER} (optional)
+A comma-separated list of @command{wpa_supplicant} driver interfaces
+to try. Defaults to @code{nl80211,wext}.
+@end table
+
+The following options are  rfkill (Radio Kill Switch) options.
+
+@table @var
+@item RFKILL
+@code{hard} or @code{soft}. A switch with physical on/off state that
+cannot be controlled via software is considered a hard switch. Any
+switch that can be controlled via software is considered soft.
+
+@item RFKILL_NAME
+Some switches sysfs entries are not linked with the interface. To match
+them up, configure the name from @file{/sys/class/rfkill/rfkillX/name}
+here so that netcfg can identify which to control.
+
+@end table
+
+
+
+@node bond
+@subsection @code{bond}
+
+Standard @code{ethernet} options apply for IP configuration.
+
+@table @var
+@item SLAVE_INTERFACES
+An array of names of interfaces to be bound together.
+@end table
+
+
+
+@node bridge
+@subsection @code{bridge}
+
+The options of @code{ethernet} connections apply to set up
+standard IP connectivity.
+
+@table @var
+@item BRIDGE_INTERFACES
+List of network interfaces taking part in the bridge.
+
+@item FWD_DELAY
+Forward delay of the bridge, see @command{brctl}.
+
+@item MAX_AGE
+Maximum age parameter, see @command{brctl}.
+@end table
+
+
+
+@node tuntap
+@subsection @code{tuntap}
+
+The options of @code{ethernet} connections apply to set up
+standard IP connectivity.
+
+@table @var
+@item MODE
+Set to @code{tun} or @code{tap}.
+
+@item USER
+The owning user of the tun/tap interface.
+
+@item GROUP
+The owning group of the tun/tap interface.
+@end table
+
+
+
+@node tunnel
+@subsection @code{tunnel}
+
+Standard @code{ethernet} options apply for IP configuration.
+
+@table @var
+@item INTERFACE
+The name of the tunnel interface.
+
+@item MODE
+The tunnel type (e.g. @code{sit}). See @command{ip} for available modes.
+
+@item LOCAL
+The address of the local end of the tunnel.
+
+@item REMOTE
+The address of the remote end of the tunnel.
+@end table
+
+
+
+@node vlan
+@subsection @code{vlan}
+
+@table @var
+@item INTERFACE
+The name of the virtual interface.
+
+@item VLAN_PHYS_DEV
+The name of the associated physical interface.
+
+@item VLAN_ID
+See @command{ip}.
+@end table
+
+
+
+@node openvpn
+@subsection @code{openvpn}
+
+@table @var
+@item OVPN_CONFIG
+Path to the @command{openvpn} config file.
+
+@item OVPN_PID_FILE
+Path to the @command{openvpn} PID file.
+
+@item OVPN_FLAGS
+Options to pass to @command{openvpn} invocation.
+@end table
+
+
+
+@node ppp
+@subsection @code{ppp}
+
+@table @var
+@item PEER
+The @command{pppd} peer to use.
+
+@item PPP_TIMEOUT
+@command{pppd} timeout.
+@end table
+
+
+
+@c @node pppoe
+@c @subsection @code{pppoe}
+
 
 
 
