@@ -1,0 +1,22 @@
+What awesome that you want to contribute!
+
+
+If you have systemd or wireless contection
+please prioritise those issed if you want
+to try to patch something.
+
+IF you are reporting an issue, it is too
+bad that only maintainers can but labels
+on issues and put them in milestones.
+Therefore please classify them to whether
+they concern systemd and to whether they
+concern wireless connections; and what
+severity you think the issue have. I
+critical issue is an issue that stops
+you from using netcfg, and medium is
+the highest severity for systemd issue
+(since netcfg is made for rc.d and not
+systemd) and wireless connection issues
+(since you can always just plug in the
+wired connection.)
+
