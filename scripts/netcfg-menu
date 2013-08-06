@@ -52,4 +52,3 @@ esac
 
 exit $ret           # JP: exit with caught $?
 
-# vim: ft=sh ts=4 et sw=4:

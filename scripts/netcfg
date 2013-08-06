@@ -107,4 +107,3 @@ case "$1" in
 esac
 exit $?
 
-# vim: ft=sh ts=4 et sw=4:
