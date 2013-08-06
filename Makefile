@@ -1,20 +1,37 @@
-export VERSION = 3.2
+VERSION = 3.2
 
-.PHONY: install install-docs docs tarball pkgbuild upload clean
 
-install: install-docs
-	# Configuration files
+all: doc
+
+doc:
+	$(MAKE) -C $@
+
+
+
+install: install-doc install-conf install-lib install-hook install-script install-daemon
+
+install-doc: doc
+	install -d $(DESTDIR)/usr/share/man/{man5,man8}
+	install -m644 docs/*.5 $(DESTDIR)/usr/share/man/man5/
+	install -m644 docs/*.8 $(DESTDIR)/usr/share/man/man8/
+	install -d $(DESTDIR)/usr/share/doc/netcfg/contrib
+	install -m644 contrib/{*.hook,pm-utils.handler} $(DESTDIR)/usr/share/doc/netcfg/contrib/
+
+install-conf:
 	install -d $(DESTDIR)/etc/network.d/{examples,interfaces}
 	install -Dm644 config/netcfg $(DESTDIR)/etc/conf.d/netcfg
 	install -m644 config/iftab $(DESTDIR)/etc/iftab
 	install -m644 docs/examples/* $(DESTDIR)/etc/network.d/examples/
-	# Libs
+
+install-lib:
 	install -d $(DESTDIR)/usr/lib/network/{connections,hooks}
 	install -m644 src/{network,rfkill,8021x,globals} $(DESTDIR)/usr/lib/network/
 	install -m755 src/connections/* $(DESTDIR)/usr/lib/network/connections/
-	# Hooks
+
+install-hook:
 	install -m755 src/hooks/* $(DESTDIR)/usr/lib/network/hooks/
-	# Scripts
+
+install-script:
 	install -d $(DESTDIR)/usr/bin
 	install -m755 \
 	    scripts/netcfg \
@@ -26,7 +43,8 @@ install: install-docs
 	    $(DESTDIR)/usr/bin/
 	install -Dm755 scripts/ifplugd.action $(DESTDIR)/etc/ifplugd/netcfg.action
 	install -Dm755 scripts/pm-utils $(DESTDIR)/usr/lib/pm-utils/sleep.d/50netcfg
-	# Daemons
+
+install-daemon:
 	install -Dm755 rc.d/net-set-variable $(DESTDIR)/etc/rc.d/functions.d/net-set-variable
 	install -m755 \
 	    rc.d/net-profiles \
@@ -38,16 +56,6 @@ install: install-docs
 	install -m644 \
 	    systemd/*.service \
 	    $(DESTDIR)/usr/lib/systemd/system/
-
-install-docs: docs
-	install -d $(DESTDIR)/usr/share/man/{man5,man8}
-	install -m644 docs/*.5 $(DESTDIR)/usr/share/man/man5/
-	install -m644 docs/*.8 $(DESTDIR)/usr/share/man/man8/
-	install -d $(DESTDIR)/usr/share/doc/netcfg/contrib
-	install -m644 contrib/{*.hook,pm-utils.handler} $(DESTDIR)/usr/share/doc/netcfg/contrib/
-
-docs:
-	$(MAKE) -C $@
 
 tarball: netcfg-$(VERSION).tar.xz
 netcfg-$(VERSION).tar.xz: | docs
@@ -72,3 +80,4 @@ clean:
 	$(MAKE) -C docs clean
 	-@rm -vf PKGBUILD *.xz MD5SUMS.* 2>/dev/null
 
+.PHONY: all doc install install-doc install-conf install-lib install-hook install-script install-daemon tarball pkgbuild upload clean
