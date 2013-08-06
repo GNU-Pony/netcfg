@@ -1,3 +1,8 @@
+version 3.2
+- fix Wi-Fi reconnect after suspend (FS#32580)
+- add -S option to netcfg script
+- get rid of sbin in the connections
+
 version 3.1
 - reword systemd service descriptions
 - fix support for 'last' when using systemd
