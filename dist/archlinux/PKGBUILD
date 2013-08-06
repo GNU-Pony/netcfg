@@ -22,7 +22,7 @@ optdepends=('dialog: for the menu based profile and wifi selectors'
            )
 source=("https://github.com/GNU-Pony/netcfg/archive/${pkgver}.tar.gz")
 arch=(any)
-sha256sums=(0ab51df0fa3c6eee2a3acbbd07df20e4638d3309c2f206123eecf5dda414e742)
+sha256sums=(1c78f046af2d6f3aa13476cac804a05ee14ffef2b5f6b30dbba055400755a08f)
 
 package() {
   cd "$srcdir/netcfg-${pkgver}"
