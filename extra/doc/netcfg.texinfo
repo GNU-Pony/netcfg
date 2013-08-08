@@ -316,6 +316,9 @@ Time to wait for Duplicate Address Detection to succeed. Defaults to @code{3} se
 DNS configuration
 
 @table @var
+@itemRESOLV_CONF
+Path to resolver configuration. Defaults to /etc/resolv.conf
+
 @item DNS
 Array of DNS nameservers. Simply specify the IP's of each of the DNS nameservers.
 
@@ -323,10 +326,10 @@ Array of DNS nameservers. Simply specify the IP's of each of the DNS nameservers
 Array of @code{option} lines for @file{/etc/resolv.conf}
 
 @item SEARCH
-@code{search} line for @file{/etc/resolv.conf}
+@code{search} line for @file{RESOLV_CONF}
 
 @item DOMAIN
-@code{domain} line for @file{/etc/resolv.conf}
+@code{domain} line for @file{RESOLV_CONF}
 
 @item HOSTNAME
 Set the system hostname. Ensure any hostname is correctly referenced in @file{/etc/hosts}.

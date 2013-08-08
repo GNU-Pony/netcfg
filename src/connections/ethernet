@@ -211,12 +211,13 @@ ethernet_up() {
     fi
 
     # Generate a new resolv.conf
+    [[ -z "$RESOLV_CONF" ]] && RESOLV_CONF="/etc/resolv.conf"
     if [[ -n "$DNS" ]]; then
-        : >/etc/resolv.conf
-        [[ -n "$DOMAIN" ]] && echo "domain $DOMAIN" >>/etc/resolv.conf
-        [[ -n "$SEARCH" ]] && echo "search $SEARCH" >>/etc/resolv.conf
+        : >"$RESOLV_CONF"
+        [[ -n "$DOMAIN" ]] && echo "domain $DOMAIN"   >>"$RESOLV_CONF"
+        [[ -n "$SEARCH" ]] && echo "search $SEARCH"   >>"$RESOLV_CONF"
         for dns in "${DNS[@]}"; do
-            echo "nameserver $dns" >>/etc/resolv.conf
+            echo "nameserver $dns" >>"$RESOLV_CONF"
         done
         for dnsoption in "${DNS_OPTIONS[@]}"; do
             echo "options $dnsoption" >>/etc/resolv.conf
