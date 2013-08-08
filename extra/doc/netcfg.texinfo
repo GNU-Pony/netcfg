@@ -316,7 +316,7 @@ Time to wait for Duplicate Address Detection to succeed. Defaults to @code{3} se
 DNS configuration
 
 @table @var
-@itemRESOLV_CONF
+@item RESOLV_CONF
 Path to resolver configuration. Defaults to /etc/resolv.conf
 
 @item DNS
